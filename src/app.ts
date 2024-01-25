@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
 import { notFound, internalError } from './error-handling';
+import authRoutes from './routes/auth.routes';
 
 require('dotenv').config();
 
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //Routes here
-
+app.use('/auth', authRoutes);
 //Error handling
 app.use(notFound);
 app.use(internalError);
