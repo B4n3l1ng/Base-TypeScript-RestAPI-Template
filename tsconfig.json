@@ -16,5 +16,4 @@
     "src/**/*.ts",
     "test/**/*.ts",
   ],
-  "files": ["custom.d.ts"]
 }
