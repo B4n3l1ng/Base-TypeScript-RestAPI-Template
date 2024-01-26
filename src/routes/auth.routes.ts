@@ -3,10 +3,12 @@ import { User } from '../models/User.model';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { isAuthenticated } from '../middlewares/isAuthenticated';
+import { uploader } from '../middlewares/cloudinary.config';
+import { UserModel } from '../interfaces/index';
 
 const router = express.Router();
 
-router.post('/signup', async (req, res, next) => {
+router.post('/signup', uploader.single('imageUrl'), async (req, res, next) => {
   const { email, password } = req.body;
   if (email === '' || password === '') {
     res.status(400).json({ message: 'Please provide email and password.' });
@@ -19,7 +21,11 @@ router.post('/signup', async (req, res, next) => {
     } else {
       const salt = bcrypt.genSaltSync(12);
       const hashedPassword = bcrypt.hashSync(password, salt);
-      await User.create({ email, hashedPassword });
+      const userToSave: UserModel = { email, hashedPassword };
+      if (req.file) {
+        userToSave.image = req.file.path;
+      }
+      await User.create(userToSave);
       res.status(201).json({ message: 'User created successfully' });
     }
   } catch (error: any) {
@@ -52,7 +58,6 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/verify', isAuthenticated, (req, res, next) => {
   // You need to use the middleware there, if the request passes the middleware, it means your token is good
-  console.log(req.payload);
   res.status(200).json(req.payload);
 });
 

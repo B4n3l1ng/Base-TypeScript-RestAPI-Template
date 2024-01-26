@@ -6,6 +6,11 @@ declare namespace Express {
   }
 
   interface Request {
-    payload: userPayload;
+    payload?: userPayload;
+    file?: {
+      path: string;
+      filename: string;
+      size: number;
+    };
   }
 }

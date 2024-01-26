@@ -14,6 +14,10 @@ const userSchema = new Schema<UserModel>(
       type: String,
       required: [true, 'Password is required.'],
     },
+    image: {
+      type: String,
+      default: 'https://res.cloudinary.com/dtiihknqe/image/upload/v1706280251/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV_han5ci.jpg',
+    },
   },
   {
     timestamps: true,
