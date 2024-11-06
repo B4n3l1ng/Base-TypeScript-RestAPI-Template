@@ -24,6 +24,10 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get('/ping', (_req: express.Request, res: express.Response) => {
+  return res.json('pong 🏓');
+});
+
 //Routes here
 app.use('/auth', authRoutes);
 
